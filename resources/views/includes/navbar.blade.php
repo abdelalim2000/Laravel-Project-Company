@@ -14,7 +14,10 @@
                     <a class="nav-link" href="{{route('employees')}}">Employees</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Create Employee</a>
+                    <a class="nav-link" href="{{route('create')}}">Create Employee</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('blog')}}">Blog</a>
                 </li>
             </ul>
         </div>

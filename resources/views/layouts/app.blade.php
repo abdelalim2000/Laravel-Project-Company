@@ -10,8 +10,10 @@
 </head>
 <body>
 @include('includes.navbar')
+
 <section class="text-center">
     <div class="container">
+        @include('includes.messages')
         @yield('content')
     </div>
 </section>

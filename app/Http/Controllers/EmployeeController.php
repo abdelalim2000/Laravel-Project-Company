@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Employee;
+use Illuminate\Support\Facades\Event;
 
 class EmployeeController extends Controller
 {
@@ -14,8 +15,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $events = Employee::all();
-        return view('employee', compact('events'));
+        $events = Employee::orderBy('id', 'desc')->paginate(6);
+            return view('employee', compact('events'));
     }
 
     /**
@@ -25,7 +26,8 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        //Create Employee View
+        return view("update");
     }
 
     /**
@@ -36,7 +38,19 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+           'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'salary' => 'required'
+        ]);
+        $event = new Employee();
+        $event->first_name = $request->first_name;
+        $event->last_name = $request->last_name;
+        $event->email = $request->email;
+        $event->salary = $request->salary;
+        $event->save();
+        return redirect('/employees')->with('Msg', "Employee created successfully");
     }
 
     /**
@@ -47,7 +61,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        $event = Employee::find($id);
+        return view('view', compact('event'));
     }
 
     /**
@@ -58,7 +73,8 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $event = Employee::find($id);
+        return view('edit', compact('event'));
     }
 
     /**
@@ -70,7 +86,19 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'salary' => 'required'
+        ]);
+        $event = Employee::find($id);
+        $event->first_name = $request->first_name;
+        $event->last_name = $request->last_name;
+        $event->email = $request->email;
+        $event->salary = $request->salary;
+        $event->save();
+        return redirect('/employees')->with('Msg', "Employee Updated successfully");
     }
 
     /**
@@ -81,6 +109,8 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Employee::find($id);
+        $event->delete();
+        return redirect('/employees')->with("Msg", "Employee Deleted Successfully");
     }
 }
